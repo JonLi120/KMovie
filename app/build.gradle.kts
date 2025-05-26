@@ -52,6 +52,7 @@ android {
     }
   }
   compileOptions {
+    isCoreLibraryDesugaringEnabled = true
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
   }
@@ -67,6 +68,8 @@ android {
 }
 
 dependencies {
+  coreLibraryDesugaring(libs.core.jdk.desugaring)
+
   val composeBom = platform(libs.androidx.compose.bom)
   implementation(composeBom)
 
@@ -81,10 +84,14 @@ dependencies {
 
   // Components
   implementation(libs.bundles.androidx.compose)
+  implementation(libs.bundles.coil)
 
   // Retrofit
   implementation(libs.bundles.retrofit)
   implementation(libs.kotlinx.serialization.json)
+
+  //Logger
+  implementation(libs.timber)
 
   // Local tests: jUnit, coroutines, Android runner
   testImplementation(libs.junit)
