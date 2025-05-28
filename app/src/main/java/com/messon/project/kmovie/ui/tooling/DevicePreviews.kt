@@ -1,6 +1,5 @@
 package com.messon.project.kmovie.ui.tooling
 
-import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.content.res.Configuration.UI_MODE_TYPE_NORMAL
 import androidx.compose.ui.tooling.preview.Devices

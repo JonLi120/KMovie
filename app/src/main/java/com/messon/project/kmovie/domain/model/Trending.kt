@@ -1,78 +1,25 @@
 package com.messon.project.kmovie.domain.model
 
 import com.messon.project.kmovie.core.Constants.BASE_IMAGE_FOR_THUMBNAIL_PATH
-import com.messon.project.kmovie.ui.home.TrendingVO
+import com.messon.project.kmovie.domain.enum.MediaType
+import kotlin.random.Random
 
-sealed interface Trending
-
-data class TrendingMovie(
+data class BasicTrendingModel(
   val id: Int,
-  val mediaType: String,
-  val adult: Boolean,
-  val popularity: Double,
-  val backdropPath: String,
-  val genreIds: List<Int>,
-  val originalLanguage: String,
-  val originalTitle: String,
-  val overview: String,
-  val posterPath: String,
-  val releaseDate: String,
+  val mediaType: MediaType,
   val title: String,
-  val video: Boolean,
-  val voteAverage: Double = 0.0,
-  val voteCount: Int = 0,
-): Trending
-
-data class TrendingTv(
-  val id: Int,
-  val mediaType: String,
-  val adult: Boolean,
-  val popularity: Double,
-  val backdropPath: String,
-  val name: String,
-  val originalName: String,
-  val overview: String,
-  val posterPath: String,
-  val originalLanguage: String,
-  val genreIds: List<Int>,
-  val firstAirDate: String,
-  val voteAverage: Double = 0.0,
-  val voteCount: Int = 0,
-  val originCountry: List<String>,
-): Trending
-
-data class TrendingPerson(
-  val id: Int,
-  val mediaType: String,
-  val adult: Boolean,
-  val popularity: Double,
-  val name: String,
-  val originalName: String,
-  val gender: Int,
-  val knownForDepartment: String,
-  val profilePath: String,
-): Trending
-
-fun Trending.mapperTrendingVO(): TrendingVO = when(this) {
-  is TrendingMovie -> {
-    TrendingVO(
-      id = id,
-      mediaType = mediaType,
-      title = title,
-      posterPath = "$BASE_IMAGE_FOR_THUMBNAIL_PATH$posterPath",
-      voteAverage = voteAverage,
-      dateTime = releaseDate,
+  val posterImageUrl: String,
+  val voteAverage: Double,
+  val dateTime:  String,
+) {
+  companion object {
+    fun fakeModel(): BasicTrendingModel = BasicTrendingModel(
+      id = (1..10000).random(),
+      mediaType = MediaType.MOVIE,
+      title = "Jack Reacher: Never Go Back",
+      posterImageUrl = "${BASE_IMAGE_FOR_THUMBNAIL_PATH}/j0NUh5irX7q2jIRtbLo8TZyRn6y.jpg",
+      voteAverage = Random.Default.nextDouble(0.0, 10.0),
+      dateTime = "2022-04-28"
     )
   }
-  is TrendingTv -> {
-    TrendingVO(
-      id = id,
-      mediaType = mediaType,
-      title = name,
-      posterPath = "$BASE_IMAGE_FOR_THUMBNAIL_PATH$posterPath",
-      voteAverage = voteAverage,
-      dateTime = firstAirDate
-    )
-  }
-  is TrendingPerson -> error("No implementation of trending person ui")
 }

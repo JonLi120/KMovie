@@ -2,61 +2,44 @@ package com.messon.project.kmovie.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.messon.project.kmovie.core.Result
-import com.messon.project.kmovie.core.asResult
-import com.messon.project.kmovie.domain.model.Trending
-import com.messon.project.kmovie.domain.model.mapperTrendingVO
-import com.messon.project.kmovie.domain.repository.TrendingRepository
+import com.messon.project.kmovie.core.UiState
+import com.messon.project.kmovie.domain.model.BasicCelebrityModel
+import com.messon.project.kmovie.domain.model.BasicTrendingModel
+import com.messon.project.kmovie.domain.model.HomeScreenModel
+import com.messon.project.kmovie.domain.usecase.GetHomeScreenDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
-import okhttp3.MediaType
-import timber.log.Timber
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-  trendingRepo: TrendingRepository
+  val getHomeScreenDataUseCase: GetHomeScreenDataUseCase,
 ) : ViewModel() {
 
-  val trendingItemsState: StateFlow<TrendingItemsUiState> =
-    trendingRepo.getAllTrendingList()
-      .asResult()
-      .map {
-        when (it) {
-          is Result.Error -> {
-            Timber.e(it.exception)
-            TrendingItemsUiState.Loading
-          }
-          is Result.Loading -> TrendingItemsUiState.Failed
-          is Result.Success -> {
-            val voList = it.data.map(Trending::mapperTrendingVO)
-            TrendingItemsUiState.Success(voList)
-          }
+  var homeUiState = MutableStateFlow<UiState<HomeScreenModel>>(UiState.Loading)
+    private set
+
+  var trendingItems = MutableStateFlow<List<BasicTrendingModel>>(listOf())
+    private set
+
+  var celebrityItems = MutableStateFlow<List<BasicCelebrityModel>>(listOf())
+    private set
+
+  init {
+    getTrendingAndCelebrityItems()
+  }
+
+  private fun getTrendingAndCelebrityItems() {
+    getHomeScreenDataUseCase.invoke()
+      .onEach { state ->
+        homeUiState.value = state
+        if (state is UiState.Success) {
+          val model: HomeScreenModel = state.data
+          trendingItems.value = model.trendingItems
+          celebrityItems.value = model.celebrities
         }
-      }
-      .stateIn(
-        scope = viewModelScope,
-        initialValue = TrendingItemsUiState.Loading,
-        started = SharingStarted.WhileSubscribed(5000)
-      )
+      }.launchIn(viewModelScope)
+  }
 }
-
-sealed interface TrendingItemsUiState {
-
-  object Loading: TrendingItemsUiState
-  object Failed: TrendingItemsUiState
-  data class Success(val items: List<TrendingVO>): TrendingItemsUiState
-}
-
-data class TrendingVO(
-  val id : Int,
-  val mediaType: String,
-  val title: String,
-  val posterPath: String,
-  val voteAverage: Double,
-  val dateTime: String,
-)

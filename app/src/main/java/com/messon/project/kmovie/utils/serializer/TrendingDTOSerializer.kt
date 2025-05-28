@@ -2,10 +2,8 @@ package com.messon.project.kmovie.utils.serializer
 
 import com.messon.project.kmovie.data.remote.dto.TrendingDTO
 import com.messon.project.kmovie.data.remote.dto.TrendingMovieDTO
-import com.messon.project.kmovie.data.remote.dto.TrendingPersonDTO
 import com.messon.project.kmovie.data.remote.dto.TrendingTvDTO
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
@@ -26,7 +24,6 @@ class TrendingDTOSerializer : KSerializer<TrendingDTO> {
 
     val jsonElement = when(value) {
       is TrendingMovieDTO -> jsonEncoder.json.encodeToJsonElement(TrendingMovieDTO.serializer(), value)
-      is TrendingPersonDTO -> jsonEncoder.json.encodeToJsonElement(TrendingPersonDTO.serializer(), value)
       is TrendingTvDTO -> jsonEncoder.json.encodeToJsonElement(TrendingTvDTO.serializer(), value)
     }
 
@@ -41,7 +38,7 @@ class TrendingDTOSerializer : KSerializer<TrendingDTO> {
     return when(val mediaType = jsonObject["media_type"]?.jsonPrimitive?.contentOrNull) {
       "movie" -> input.json.decodeFromJsonElement(TrendingMovieDTO.serializer(), jsonObject)
       "tv" -> input.json.decodeFromJsonElement(TrendingTvDTO.serializer(), jsonObject)
-      "person" -> input.json.decodeFromJsonElement(TrendingPersonDTO.serializer(), jsonObject)
+      "person" -> input.json.decodeFromJsonElement(TrendingDTO.serializer(), jsonObject)
       else -> error("Unknown media_type: $mediaType")
     }
   }

@@ -1,9 +1,8 @@
 package com.messon.project.kmovie.data.remote.dto
 
-import com.messon.project.kmovie.domain.model.Trending
-import com.messon.project.kmovie.domain.model.TrendingMovie
-import com.messon.project.kmovie.domain.model.TrendingPerson
-import com.messon.project.kmovie.domain.model.TrendingTv
+import com.messon.project.kmovie.core.Constants.BASE_IMAGE_FOR_THUMBNAIL_PATH
+import com.messon.project.kmovie.domain.enum.MediaType
+import com.messon.project.kmovie.domain.model.BasicTrendingModel
 import com.messon.project.kmovie.utils.serializer.TrendingDTOSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -11,7 +10,7 @@ import kotlinx.serialization.Serializable
 @Serializable(with = TrendingDTOSerializer::class)
 sealed class TrendingDTO {
   abstract val id: Int
-  abstract val mediaType: String
+  @SerialName("media_type") abstract val mediaType: String
   abstract val adult: Boolean
   abstract val popularity: Double
 }
@@ -54,65 +53,21 @@ data class TrendingTvDTO(
   @SerialName("origin_country") val originCountry: List<String>,
 ): TrendingDTO()
 
-@Serializable
-data class TrendingPersonDTO(
-  @SerialName("id") override val id: Int,
-  @SerialName("media_type") override val mediaType: String,
-  @SerialName("adult") override val adult: Boolean,
-  @SerialName("popularity") override val popularity: Double,
-  @SerialName("name") val name: String,
-  @SerialName("original_name") val originalName: String,
-  @SerialName("gender") val gender: Int,
-  @SerialName("known_for_department") val knownForDepartment: String,
-  @SerialName("profile_path") val profilePath: String,
-): TrendingDTO()
-
-fun TrendingDTO.mapperModel(): Trending = when(this) {
-  is TrendingMovieDTO -> TrendingMovie(
+fun TrendingDTO.mapperModel(): BasicTrendingModel = when(this) {
+  is TrendingMovieDTO -> BasicTrendingModel(
     id = id,
-    mediaType = mediaType,
-    adult = adult,
-    popularity = popularity,
-    backdropPath = backdropPath,
-    genreIds = genreIds,
-    originalLanguage = originalLanguage,
-    originalTitle = originalTitle,
-    overview = overview,
-    posterPath = posterPath,
-    releaseDate = releaseDate,
+    mediaType = MediaType.parser(type = mediaType),
     title = title,
-    video = video,
+    posterImageUrl = "$BASE_IMAGE_FOR_THUMBNAIL_PATH$posterPath",
     voteAverage = voteAverage,
-    voteCount = voteCount
+    dateTime = releaseDate,
   )
-
-  is TrendingPersonDTO -> TrendingPerson(
+  is TrendingTvDTO -> BasicTrendingModel(
     id = id,
-    mediaType = mediaType,
-    adult = adult,
-    popularity = popularity,
-    name = name,
-    originalName = originalName,
-    gender = gender,
-    knownForDepartment = knownForDepartment,
-    profilePath = profilePath
-  )
-
-  is TrendingTvDTO -> TrendingTv(
-    id = id,
-    mediaType = mediaType,
-    adult = adult,
-    popularity = popularity,
-    backdropPath = backdropPath,
-    name = name,
-    originalName = originalName,
-    overview = overview,
-    posterPath = posterPath,
-    originalLanguage = originalLanguage,
-    genreIds = genreIds,
-    firstAirDate = firstAirDate,
+    mediaType = MediaType.parser(type = mediaType),
+    title = name,
+    posterImageUrl = "$BASE_IMAGE_FOR_THUMBNAIL_PATH$posterPath",
     voteAverage = voteAverage,
-    voteCount = voteCount,
-    originCountry = originCountry
+    dateTime = firstAirDate,
   )
 }

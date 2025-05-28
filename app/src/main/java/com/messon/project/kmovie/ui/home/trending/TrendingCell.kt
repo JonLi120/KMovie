@@ -4,10 +4,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -19,6 +22,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,56 +32,50 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.min
 import com.messon.project.kmovie.R
-import com.messon.project.kmovie.ui.component.MovieImage
-import com.messon.project.kmovie.ui.home.TrendingItemsUiState
-import com.messon.project.kmovie.ui.home.TrendingVO
+import com.messon.project.kmovie.domain.model.BasicTrendingModel
+import com.messon.project.kmovie.ui.component.AppAsyncImage
+import com.messon.project.kmovie.ui.component.SeeMoreHeader
 import com.messon.project.kmovie.ui.theme.AppTheme
-import com.messon.project.kmovie.ui.tooling.PreviewTrendingItem
 import com.messon.project.kmovie.ui.tooling.UiModePreviews
 import com.messon.project.kmovie.utils.DateFormatter
 import com.messon.project.kmovie.utils.DateParseType
 
 @Composable
-fun TrendingTitleWithItems(trendingState: TrendingItemsUiState) {
-  when(trendingState) {
-    TrendingItemsUiState.Loading -> Unit
-    TrendingItemsUiState.Failed -> Unit
-    is TrendingItemsUiState.Success -> {
-      Text(
-        modifier = Modifier.padding(vertical = 6.dp, horizontal = 16.dp),
-        text = stringResource(R.string.trending_title),
-        style = MaterialTheme.typography.headlineLarge,
-      )
-      LazyRow(
-        modifier = Modifier
-          .fillMaxWidth()
-          .padding(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
-      ) {
-        items(trendingState.items) { item ->
-          TrendingListItem(item)
-        }
-      }
+fun ColumnScope.TrendingItemsWithTitle(
+  trendingItems: List<BasicTrendingModel>
+) {
+  SeeMoreHeader(
+    headerText = stringResource(R.string.trending_title),
+  )
+  LazyRow(
+    modifier = Modifier
+      .fillMaxWidth(),
+    horizontalArrangement = Arrangement.spacedBy(20.dp),
+    contentPadding = PaddingValues(horizontal = 16.dp)
+  ) {
+    items(trendingItems) { item ->
+      TrendingListItem(item)
     }
   }
 }
 
 @Composable
 private fun TrendingListItem(
-  item: TrendingVO,
+  item: BasicTrendingModel,
   modifier: Modifier = Modifier,
 ) {
   Column(
-    modifier = modifier.width(150.dp),
+    modifier = modifier.width(200.dp),
   ) {
     Box(
       modifier = Modifier
-        .height(200.dp)
+        .height(260.dp)
         .fillMaxWidth()
     ) {
-      MovieImage(
-        image = item.posterPath,
+      AppAsyncImage(
+        image = item.posterImageUrl,
         modifier = Modifier.matchParentSize()
       )
       MovieRatingBadge(
@@ -94,13 +92,19 @@ private fun TrendingListItem(
       style = MaterialTheme.typography.bodySmall,
       color = MaterialTheme.colorScheme.onBackground
     )
-    Text(
-      modifier = Modifier.padding(end = 18.dp),
-      text = item.title,
-      style = MaterialTheme.typography.bodyMedium,
-      maxLines = 2,
-      overflow = TextOverflow.Ellipsis,
-    )
+    val titleStyle = MaterialTheme.typography.bodyMedium
+    Box(
+      modifier = Modifier
+        .heightIn(min = (titleStyle.lineHeight.value * 2).dp)
+    ) {
+      Text(
+        modifier = Modifier.padding(end = 18.dp),
+        text = item.title,
+        style = titleStyle,
+        maxLines = 2,
+        overflow = TextOverflow.Ellipsis,
+      )
+    }
   }
 }
 
@@ -138,18 +142,16 @@ private fun MovieRatingBadge(
 
 @Composable
 @UiModePreviews
-fun MovieRatingBadgePreview() {
+fun TrendingTitleWithItemsPreview() {
   AppTheme {
-    MovieRatingBadge(
-      voteAverage = 5.0
-    )
-  }
-}
-
-@Composable
-@UiModePreviews
-fun TrendingListItemPreview() {
-  AppTheme {
-    TrendingListItem(PreviewTrendingItem)
+    Surface(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
+      Column {
+        TrendingItemsWithTitle(
+          trendingItems = List(2) {
+            BasicTrendingModel.fakeModel()
+          }
+        )
+      }
+    }
   }
 }

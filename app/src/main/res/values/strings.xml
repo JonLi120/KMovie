@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">KMovie</string>
-    <string name="trending_title">Trending</string>
+    <string name="trending_title">Trending New</string>
+    <string name="popular_celebrities">Popular Celebrities</string>
 </resources>
