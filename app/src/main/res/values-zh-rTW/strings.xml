@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">KMovie</string>
-    <string name="trending_title">熱門趨勢</string>
-    <string name="popular_celebrities">人氣名人</string>
+    <string name="trending_title">今日熱門</string>
+    <string name="popular_celebrities">熱門明星</string>
 </resources>
