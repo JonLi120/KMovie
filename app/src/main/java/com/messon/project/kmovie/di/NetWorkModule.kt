@@ -65,6 +65,7 @@ object NetWorkModule {
     val networkJson = Json {
       ignoreUnknownKeys = true
       encodeDefaults = true
+      coerceInputValues = true
       explicitNulls = false
     }
     return Retrofit.Builder()

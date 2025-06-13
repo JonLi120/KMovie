@@ -13,7 +13,7 @@ data class BasicPersonDTO(
   val gender: Int,
   val name: String,
   @SerialName("original_name") val originalName: String,
-  @SerialName("profile_path") val profilePath: String,
+  @SerialName("profile_path") val profilePath: String = "",
 )
 
 fun BasicPersonDTO.mapperModel(): BasicCelebrityModel = BasicCelebrityModel(
