@@ -1,9 +1,11 @@
 package com.messon.project.kmovie.data.remote
 
 import com.messon.project.kmovie.data.model.ApiResponse
+import com.messon.project.kmovie.data.remote.dto.BasicMovieDTO
 import com.messon.project.kmovie.data.remote.dto.BasicPersonDTO
 import com.messon.project.kmovie.data.remote.dto.TrendingDTO
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface AppNetworkDataSource {
@@ -18,4 +20,11 @@ interface AppNetworkDataSource {
     @Query("language") language: String = "en-US",
     @Query("page") page: Int = 1
   ): ApiResponse<BasicPersonDTO>
+
+  // === Movie ===
+  @GET("3/movie/{movie_id}")
+  suspend fun getMovieDetail(
+    @Path("movie_id") movieId: Int,
+    @Query("language") language: String = "en-US",
+  ): BasicMovieDTO
 }

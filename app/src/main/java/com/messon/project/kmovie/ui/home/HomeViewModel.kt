@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.messon.project.kmovie.core.UiState
 import com.messon.project.kmovie.domain.model.BasicCelebrityModel
+import com.messon.project.kmovie.domain.model.BasicMovieCollection
 import com.messon.project.kmovie.domain.model.BasicTrendingModel
 import com.messon.project.kmovie.domain.model.HomeScreenModel
 import com.messon.project.kmovie.domain.usecase.GetHomeScreenDataUseCase
@@ -21,10 +22,13 @@ class HomeViewModel @Inject constructor(
   var homeUiState = MutableStateFlow<UiState<HomeScreenModel>>(UiState.Loading)
     private set
 
-  var trendingItems = MutableStateFlow<List<BasicTrendingModel>>(listOf())
+  var trendingItems = MutableStateFlow<List<BasicTrendingModel>>(emptyList())
     private set
 
-  var celebrityItems = MutableStateFlow<List<BasicCelebrityModel>>(listOf())
+  var celebrityItems = MutableStateFlow<List<BasicCelebrityModel>>(emptyList())
+    private set
+
+  var collectionItems = MutableStateFlow<List<BasicMovieCollection>>(emptyList())
     private set
 
   init {
@@ -37,6 +41,7 @@ class HomeViewModel @Inject constructor(
         homeUiState.value = state
         if (state is UiState.Success) {
           val model: HomeScreenModel = state.data
+          collectionItems.value = model.collections
           trendingItems.value = model.trendingItems
           celebrityItems.value = model.celebrities
         }

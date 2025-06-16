@@ -9,9 +9,13 @@ abstract class BaseRepository(
   private val dispatcher: CoroutineDispatcher
 ) {
 
-  fun <T> execute(call: suspend () -> T): Flow<Result<T>> = flow {
+  fun <T> executeWithResult(call: suspend () -> T): Flow<Result<T>> = flow {
     emit(call.invoke())
   }
     .asResult()
     .flowOn(dispatcher)
+
+  fun <T> execute(call: suspend () -> T): Flow<T> = flow {
+    emit(call.invoke())
+  }.flowOn(dispatcher)
 }

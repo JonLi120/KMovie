@@ -19,6 +19,7 @@ import com.messon.project.kmovie.R
 @Composable
 fun SeeMoreHeader(
   headerText: String,
+  showTrailing: Boolean = true,
 ) {
   Row(
     modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp, horizontal = 16.dp),
@@ -29,11 +30,13 @@ fun SeeMoreHeader(
       text = headerText,
       style = MaterialTheme.typography.headlineLarge,
     )
-    Image(
-      modifier = Modifier.size(28.dp),
-      painter = painterResource(R.drawable.ic_rounded_chevron_right_24),
-      contentDescription = null,
-      colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground,)
-    )
+    if (showTrailing) {
+      Image(
+        modifier = Modifier.size(28.dp),
+        painter = painterResource(R.drawable.ic_rounded_chevron_right_24),
+        contentDescription = null,
+        colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground,)
+      )
+    }
   }
 }

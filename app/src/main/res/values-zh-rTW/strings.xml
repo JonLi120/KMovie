@@ -3,4 +3,5 @@
     <string name="app_name">KMovie</string>
     <string name="trending_title">今日熱門</string>
     <string name="popular_celebrities">熱門明星</string>
+    <string name="movie_collection">電影合集</string>
 </resources>

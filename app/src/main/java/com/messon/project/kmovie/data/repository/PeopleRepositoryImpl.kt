@@ -18,7 +18,7 @@ class PeopleRepositoryImpl @Inject constructor(
   private val dataSource: AppNetworkDataSource,
 ): BaseRepository(ioDispatcher), PeopleRepository {
 
-  override fun getPopularPersonList(page: Int): Flow<Result<List<BasicCelebrityModel>>> = execute {
+  override fun getPopularPersonList(page: Int): Flow<Result<List<BasicCelebrityModel>>> = executeWithResult {
     dataSource.getPopularPersonList(page = page)
       .results
       .map(BasicPersonDTO::mapperModel)

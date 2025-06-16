@@ -1,7 +1,9 @@
 package com.messon.project.kmovie.di
 
+import com.messon.project.kmovie.data.repository.MovieRepositoryImpl
 import com.messon.project.kmovie.data.repository.PeopleRepositoryImpl
 import com.messon.project.kmovie.data.repository.TrendingRepositoryImpl
+import com.messon.project.kmovie.domain.repository.MovieRepository
 import com.messon.project.kmovie.domain.repository.PeopleRepository
 import com.messon.project.kmovie.domain.repository.TrendingRepository
 import dagger.Binds
@@ -22,4 +24,9 @@ interface RepositoryModule {
   fun bindPeopleRepository(
     impl: PeopleRepositoryImpl
   ): PeopleRepository
+
+  @Binds
+  fun bindMovieRepository(
+    impl: MovieRepositoryImpl
+  ): MovieRepository
 }

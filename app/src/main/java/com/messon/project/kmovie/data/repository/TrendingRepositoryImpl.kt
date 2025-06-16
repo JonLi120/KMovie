@@ -18,7 +18,7 @@ class TrendingRepositoryImpl @Inject constructor(
   private val dataSource: AppNetworkDataSource,
 ): BaseRepository(ioDispatcher), TrendingRepository {
 
-  override fun getAllTrendingList(): Flow<Result<List<BasicTrendingModel>>> = execute {
+  override fun getAllTrendingList(): Flow<Result<List<BasicTrendingModel>>> = executeWithResult {
     dataSource.getAllTrendingList()
       .results
       .filterNot { it.mediaType == "person" }
