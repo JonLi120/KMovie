@@ -1,5 +1,6 @@
 package com.messon.project.kmovie.data.remote.dto
 
+import com.messon.project.kmovie.core.Constants.BASE_IMAGE_FOR_BACKGROUND_PATH
 import com.messon.project.kmovie.core.Constants.BASE_IMAGE_FOR_THUMBNAIL_PATH
 import com.messon.project.kmovie.domain.enum.MediaType
 import com.messon.project.kmovie.domain.model.BasicTrendingModel
@@ -21,7 +22,7 @@ data class TrendingMovieDTO(
   @SerialName("media_type") override val mediaType: String,
   @SerialName("adult") override val adult: Boolean,
   @SerialName("popularity") override val popularity: Double,
-  @SerialName("backdrop_path") val backdropPath: String,
+  @SerialName("backdrop_path") val backdropPath: String?,
   @SerialName("genre_ids") val genreIds: List<Int>,
   @SerialName("original_language") val originalLanguage: String,
   @SerialName("original_title") val originalTitle: String,
@@ -40,7 +41,7 @@ data class TrendingTvDTO(
   @SerialName("media_type") override val mediaType: String,
   @SerialName("adult") override val adult: Boolean,
   @SerialName("popularity") override val popularity: Double,
-  @SerialName("backdrop_path") val backdropPath: String,
+  @SerialName("backdrop_path") val backdropPath: String?,
   @SerialName("name") val name: String,
   @SerialName("original_name") val originalName: String,
   @SerialName("overview") val overview: String,
@@ -58,6 +59,7 @@ fun TrendingDTO.mapperModel(): BasicTrendingModel = when(this) {
     id = id,
     mediaType = MediaType.parser(type = mediaType),
     title = title,
+    backdropImageUrl = "${BASE_IMAGE_FOR_BACKGROUND_PATH}${backdropPath ?: posterPath}",
     posterImageUrl = "$BASE_IMAGE_FOR_THUMBNAIL_PATH$posterPath",
     voteAverage = voteAverage,
     dateTime = releaseDate,
@@ -66,6 +68,7 @@ fun TrendingDTO.mapperModel(): BasicTrendingModel = when(this) {
     id = id,
     mediaType = MediaType.parser(type = mediaType),
     title = name,
+    backdropImageUrl = "${BASE_IMAGE_FOR_BACKGROUND_PATH}${backdropPath ?: posterPath}",
     posterImageUrl = "$BASE_IMAGE_FOR_THUMBNAIL_PATH$posterPath",
     voteAverage = voteAverage,
     dateTime = firstAirDate,

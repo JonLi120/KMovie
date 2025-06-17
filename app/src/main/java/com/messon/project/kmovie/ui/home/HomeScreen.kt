@@ -1,5 +1,7 @@
 package com.messon.project.kmovie.ui.home
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -7,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -56,13 +59,13 @@ private fun HomeScreen(
 
   val isLoading = uiState is UiState.Loading
 
-  Scaffold(
-    containerColor = MaterialTheme.colorScheme.background
-  ) { innerPadding ->
+  Box(
+    modifier = Modifier.background(MaterialTheme.colorScheme.background)
+  ) {
     Column(
       modifier = Modifier
         .fillMaxWidth()
-        .padding(innerPadding)
+        .systemBarsPadding()
         .windowInsetsPadding(WindowInsets.safeDrawing)
         .verticalScroll(state = rememberScrollState()),
     ) {

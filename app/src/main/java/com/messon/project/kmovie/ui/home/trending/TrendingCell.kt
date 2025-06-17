@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -29,9 +30,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil3.ImageLoader
+import coil3.compose.AsyncImage
 import com.messon.project.kmovie.R
 import com.messon.project.kmovie.domain.model.BasicTrendingModel
 import com.messon.project.kmovie.ui.component.AppAsyncImage
@@ -48,14 +52,33 @@ fun ColumnScope.TrendingItemsWithTitle(
   SeeMoreHeader(
     headerText = stringResource(R.string.trending_title),
   )
-  LazyRow(
-    modifier = Modifier
-      .fillMaxWidth(),
-    horizontalArrangement = Arrangement.spacedBy(20.dp),
-    contentPadding = PaddingValues(horizontal = 16.dp)
-  ) {
-    items(trendingItems) { item ->
-      TrendingListItem(item)
+  Box {
+    if (trendingItems.isNotEmpty()) {
+      val backdropImage: String = trendingItems.random().backdropImageUrl
+      AsyncImage(
+        modifier = Modifier.matchParentSize(),
+        model = backdropImage,
+        contentDescription = null,
+        contentScale = ContentScale.Crop,
+        alpha = .9f,
+      )
+      Box (
+        modifier = Modifier
+          .matchParentSize()
+          .background(Color.White.copy(alpha = .4f))
+      ){}
+    }
+    LazyRow(
+      modifier = Modifier
+        .fillMaxWidth()
+        .padding(vertical = 16.dp)
+        .background(Color.Transparent),
+      horizontalArrangement = Arrangement.spacedBy(20.dp),
+      contentPadding = PaddingValues(horizontal = 16.dp)
+    ) {
+      items(trendingItems) { item ->
+        TrendingListItem(item)
+      }
     }
   }
 }
@@ -143,7 +166,7 @@ private fun MovieRatingBadge(
 @UiModePreviews
 fun TrendingTitleWithItemsPreview() {
   AppTheme {
-    Surface(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
+    Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
       Column {
         TrendingItemsWithTitle(
           trendingItems = List(2) {

@@ -74,7 +74,7 @@ private fun PersonListItem(
 @UiModePreviews
 fun PersonTitleWithItemsPreview() {
   AppTheme {
-    Surface(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
+    Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
       Column {
         CelebritiesWithTitle(
           celebrityItems = List(2) {

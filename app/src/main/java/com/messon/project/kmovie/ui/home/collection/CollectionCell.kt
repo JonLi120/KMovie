@@ -2,6 +2,7 @@ package com.messon.project.kmovie.ui.home.collection
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -27,6 +28,7 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -112,9 +114,9 @@ fun CollectionItem(
               brush = Brush.verticalGradient(
                 colors = listOf(
                   Color.White.copy(alpha = 0.1f),
-                  Color.White.copy(alpha = 0.5f),
-                  Color.White.copy(alpha = 0.8f),
-                )
+                  Color.White.copy(alpha = 0.9f),
+                ),
+                tileMode = TileMode.Mirror
               )
             ),
           color = Color.Transparent
@@ -136,10 +138,12 @@ fun CollectionItem(
 @UiModePreviews
 fun PreviewCollectionItem() {
   AppTheme {
-    CollectionItem(
-      pagerState = PagerState{ 10 },
-      page = 0,
-      model = BasicMovieCollection.fakeModel()
-    )
+    Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)){
+      Column {
+        CollectionsWithTitle(
+          collections = List(5) { BasicMovieCollection.fakeModel() }
+        )
+      }
+    }
   }
 }
