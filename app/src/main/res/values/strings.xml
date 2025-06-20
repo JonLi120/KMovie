@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">KMovie</string>
-    <string name="trending_title">Trending New</string>
+    <string name="trending">Trending</string>
+    <string name="trending_now">Trending New</string>
     <string name="popular_celebrities">Popular Celebrities</string>
     <string name="movie_collection">Movie Collection</string>
+    <string name="all">All</string>
+    <string name="movie">Movie</string>
+    <string name="tv">TV</string>
+    <string name="day">DAY</string>
+    <string name="week">WEEK</string>
 </resources>

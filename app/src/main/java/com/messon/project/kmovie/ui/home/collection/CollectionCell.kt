@@ -43,7 +43,7 @@ import kotlin.math.absoluteValue
 
 @Composable
 fun ColumnScope.CollectionsWithTitle(
-  collections: List<BasicMovieCollection>
+  collections: List<BasicMovieCollection>,
 ) {
   val initialPage = if (collections.size > 1) 1 else 0
   val pagerState = rememberPagerState(initialPage = initialPage) {

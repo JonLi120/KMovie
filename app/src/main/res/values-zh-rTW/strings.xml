@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">KMovie</string>
-    <string name="trending_title">今日熱門</string>
+    <string name="trending">趨勢</string>
+    <string name="trending_now">今日熱門</string>
     <string name="popular_celebrities">熱門明星</string>
     <string name="movie_collection">電影合集</string>
+    <string name="all">全部</string>
+    <string name="movie">電影</string>
+    <string name="tv">電視節目</string>
+    <string name="day">本日</string>
+    <string name="week">這週</string>
 </resources>
