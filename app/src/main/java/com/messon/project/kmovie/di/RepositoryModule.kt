@@ -1,8 +1,10 @@
 package com.messon.project.kmovie.di
 
+import com.messon.project.kmovie.data.repository.GenreRepositoryImpl
 import com.messon.project.kmovie.data.repository.MovieRepositoryImpl
 import com.messon.project.kmovie.data.repository.PeopleRepositoryImpl
 import com.messon.project.kmovie.data.repository.TrendingRepositoryImpl
+import com.messon.project.kmovie.domain.repository.GenreRepository
 import com.messon.project.kmovie.domain.repository.MovieRepository
 import com.messon.project.kmovie.domain.repository.PeopleRepository
 import com.messon.project.kmovie.domain.repository.TrendingRepository
@@ -29,4 +31,9 @@ interface RepositoryModule {
   fun bindMovieRepository(
     impl: MovieRepositoryImpl
   ): MovieRepository
+
+  @Binds
+  fun bindGenreRepository(
+    impl: GenreRepositoryImpl
+  ): GenreRepository
 }

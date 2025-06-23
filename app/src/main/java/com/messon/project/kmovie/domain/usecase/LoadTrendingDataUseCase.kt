@@ -7,6 +7,7 @@ import com.messon.project.kmovie.core.Constants
 import com.messon.project.kmovie.domain.enum.MediaType
 import com.messon.project.kmovie.domain.enum.TimeWindow
 import com.messon.project.kmovie.domain.model.BasicTrendingModel
+import com.messon.project.kmovie.domain.model.GenreModel
 import com.messon.project.kmovie.domain.repository.TrendingRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -14,11 +15,11 @@ import javax.inject.Inject
 class LoadTrendingDataUseCase @Inject constructor(
   private val trendingRepository: TrendingRepository,
 ) {
-  operator fun invoke(mediaType: MediaType, timeWindow: TimeWindow): Flow<PagingData<BasicTrendingModel>> {
+  operator fun invoke(mediaType: MediaType, timeWindow: TimeWindow, genres: List<GenreModel>): Flow<PagingData<BasicTrendingModel>> {
     return Pager(
       config = PagingConfig(pageSize = Constants.PAGE_MAX_SIZE),
       pagingSourceFactory = {
-        trendingRepository.loadTrending(mediaType, timeWindow)
+        trendingRepository.loadTrending(mediaType, timeWindow, genres)
       }
     ).flow
   }

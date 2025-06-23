@@ -2,7 +2,7 @@
 agp = "8.9.0"
 androidxCore = "1.16.0"
 androidxLifecycle = "2.9.1"
-androidxComposeBom = "2025.06.00"
+androidxComposeBom = "2025.06.01"
 androidxNavigation = "2.9.0"
 activityCompose = "1.10.1"
 androidxPaging = "3.3.6"
@@ -18,6 +18,7 @@ okHttp3 = "4.12.0"
 kotlinxSerializationJson = "1.8.0"
 timber = "5.0.1"
 jdkDesugar = "2.1.5"
+room = "2.7.2"
 
 [libraries]
 core-jdk-desugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "jdkDesugar" }
@@ -50,6 +51,11 @@ okhttp3-logging-interceptor = { module = "com.squareup.okhttp3:logging-intercept
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
+
 timber = {group = "com.jakewharton.timber", name = "timber", version.ref = "timber"}
 
 junit = { module = "junit:junit", version.ref = "junit" }
@@ -59,6 +65,7 @@ kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-t
 androidx-compose = ["androidx-ui", "androidx-ui-graphics", "androidx-ui-tooling", "androidx-ui-tooling-preview", "androidx-material3", "androidx-activity-compose", "androidx-compose-paging", "androidx-compose-ui-navigation", "androidx-compose-lifecycle-viewmodel", "androidx-compose-lifecycle-runtime", "hilt-navigation-compose",]
 retrofit = ["retrofit-core", "retrofit-kotlin-serialization", "okhttp3-logging-interceptor"]
 coil = ["coil-compose", "coil-network"]
+room = ["room-ktx", "room-runtime", "room-paging"]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -67,4 +74,5 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+room = { id = "androidx.room", version.ref = "room" }
 

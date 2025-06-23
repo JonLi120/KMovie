@@ -5,11 +5,12 @@ import com.messon.project.kmovie.core.Result
 import com.messon.project.kmovie.domain.enum.MediaType
 import com.messon.project.kmovie.domain.enum.TimeWindow
 import com.messon.project.kmovie.domain.model.BasicTrendingModel
+import com.messon.project.kmovie.domain.model.GenreModel
 import kotlinx.coroutines.flow.Flow
 
 interface TrendingRepository {
 
   fun getAllTrendingList(): Flow<Result<List<BasicTrendingModel>>>
 
-  fun loadTrending(mediaType: MediaType, timeWindow: TimeWindow): PagingSource<Int, BasicTrendingModel>
+  fun loadTrending(mediaType: MediaType, timeWindow: TimeWindow, genres: List<GenreModel>): PagingSource<Int, BasicTrendingModel>
 }

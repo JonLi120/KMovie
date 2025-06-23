@@ -19,9 +19,11 @@ fun KMovieApp(
     startDestination = HomeRoute,
   ) {
     homeScreen(
+      appState = appState,
       onTrendingCellClick = navController::navigateToTrendingScreen
     )
     trendingScreen(
+      appState = appState,
       onBackClick = navController::popBackStack
     )
   }

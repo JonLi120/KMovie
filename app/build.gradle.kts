@@ -7,9 +7,10 @@ plugins {
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.hilt)
   alias(libs.plugins.ksp)
+  alias(libs.plugins.room)
 }
 
-val properties = Properties().apply {
+val localProperties = Properties().apply {
   val file = rootProject.file("local.properties")
   if (file.exists()) {
     load(file.inputStream())
@@ -17,7 +18,7 @@ val properties = Properties().apply {
 }
 
 fun getLocalProperty(key: String): String {
-  return properties.getProperty(key) ?: throw GradleException("Missing '$key' in local.properties")
+  return localProperties.getProperty(key) ?: throw GradleException("Missing '$key' in local.properties")
 }
 
 android {
@@ -67,6 +68,10 @@ android {
   }
 }
 
+room {
+  schemaDirectory("$projectDir/schemas")
+}
+
 dependencies {
   coreLibraryDesugaring(libs.core.jdk.desugaring)
 
@@ -89,6 +94,10 @@ dependencies {
   // Retrofit
   implementation(libs.bundles.retrofit)
   implementation(libs.kotlinx.serialization.json)
+
+  // Room
+  implementation(libs.bundles.room)
+  ksp(libs.room.compiler)
 
   //Logger
   implementation(libs.timber)

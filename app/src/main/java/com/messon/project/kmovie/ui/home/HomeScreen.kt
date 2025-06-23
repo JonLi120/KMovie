@@ -24,6 +24,7 @@ import com.messon.project.kmovie.domain.model.BasicCelebrityModel
 import com.messon.project.kmovie.domain.model.BasicMovieCollection
 import com.messon.project.kmovie.domain.model.BasicTrendingModel
 import com.messon.project.kmovie.domain.model.HomeScreenModel
+import com.messon.project.kmovie.ui.AppViewModel
 import com.messon.project.kmovie.ui.home.celebrity.CelebritiesWithTitle
 import com.messon.project.kmovie.ui.home.collection.CollectionsWithTitle
 import com.messon.project.kmovie.ui.home.trending.TrendingItemsWithTitle
@@ -32,6 +33,7 @@ import com.messon.project.kmovie.ui.tooling.DevicePreviews
 
 @Composable
 fun HomeScreenRoute(
+  appViewModel: AppViewModel = hiltViewModel(),
   viewModel: HomeViewModel = hiltViewModel(),
   onTrendingCellClick: (() -> Unit)?,
 ) {

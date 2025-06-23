@@ -4,9 +4,12 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.messon.project.kmovie.ui.KMovieAppState
+import com.messon.project.kmovie.ui.home.HomeRoute
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.serialization.Serializable
 
@@ -19,6 +22,7 @@ fun NavController.navigateToTrendingScreen() {
 
 @ExperimentalCoroutinesApi
 fun NavGraphBuilder.trendingScreen(
+  appState: KMovieAppState,
   onBackClick: () -> Unit,
 ) {
   val duration = 300
@@ -33,6 +37,7 @@ fun NavGraphBuilder.trendingScreen(
     }
   ) {
     TrendingScreenRoute(
+      appViewModel = hiltViewModel(appState.navController.getBackStackEntry(HomeRoute)),
       onBackClick = onBackClick,
     )
   }

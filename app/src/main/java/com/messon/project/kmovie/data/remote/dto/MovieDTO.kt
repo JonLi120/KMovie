@@ -1,7 +1,5 @@
 package com.messon.project.kmovie.data.remote.dto
 
-import com.messon.project.kmovie.core.Constants.BASE_IMAGE_FOR_THUMBNAIL_PATH
-import com.messon.project.kmovie.domain.model.BasicMovieCollection
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
 
@@ -11,7 +9,7 @@ data class BasicMovieDTO(
   @SerialName("backdrop_path") val backdropPath: String?,
   @SerialName("belongs_to_collection") val belongsToCollection: MovieCollection?,
   val budget: Int,
-  val genres: List<Genre>,
+  val genres: List<GenreDTO>,
   val homepage: String,
   val id: Int,
   @SerialName("imdb_id") val imdbId: String,
@@ -34,7 +32,7 @@ data class BasicMovieDTO(
 )
 
 @Serializable
-data class Genre(
+data class GenreDTO(
   val id: Int,
   val name: String
 )
@@ -51,11 +49,4 @@ data class MovieCollection(
   val name: String,
   @SerialName("backdrop_path") val backdropPath: String?,
   @SerialName("poster_path") val posterPath: String?
-)
-
-fun MovieCollection.mapperModel(): BasicMovieCollection = BasicMovieCollection(
-  id = id,
-  name = name,
-  posterImageUrl = "${BASE_IMAGE_FOR_THUMBNAIL_PATH}/${posterPath ?: backdropPath}",
-  backdropImageUrl = "${BASE_IMAGE_FOR_THUMBNAIL_PATH}/${backdropPath ?: posterPath}",
 )

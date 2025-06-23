@@ -16,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +33,7 @@ import com.messon.project.kmovie.R
 import com.messon.project.kmovie.domain.enum.MediaType
 import com.messon.project.kmovie.domain.enum.TimeWindow
 import com.messon.project.kmovie.domain.model.BasicTrendingModel
+import com.messon.project.kmovie.ui.AppViewModel
 import com.messon.project.kmovie.ui.component.AppAsyncImage
 import com.messon.project.kmovie.ui.component.AppStarBar
 import com.messon.project.kmovie.ui.component.AppTopBar
@@ -41,15 +43,21 @@ import com.messon.project.kmovie.ui.tooling.DevicePreviews
 import com.messon.project.kmovie.ui.trend.filter.MediaTypeAndTimeWindowFilter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
+import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 @Composable
 fun TrendingScreenRoute(
+  appViewModel: AppViewModel = hiltViewModel(),
   viewModel: TrendingViewModel = hiltViewModel(),
   onBackClick: () -> Unit,
 ) {
   val selectedMediaType by viewModel.selectedMediaType.collectAsStateWithLifecycle()
   val trendingItems = viewModel.trendingFlow.collectAsLazyPagingItems()
+
+  LaunchedEffect(selectedMediaType) {
+    Timber.d("@@@ ${appViewModel.hashCode()}")
+  }
 
   TrendingScreen(
     selectedMediaType = selectedMediaType,
@@ -150,7 +158,7 @@ private fun TrendingItem(
           overflow = TextOverflow.Ellipsis
         )
         Text(
-          text = "Family / History",
+          text = model.genres,
           color = MaterialTheme.colorScheme.background,
           style = MaterialTheme.typography.bodySmall,
           maxLines = 1,

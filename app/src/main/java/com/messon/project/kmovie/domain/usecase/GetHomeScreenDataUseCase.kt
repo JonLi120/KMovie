@@ -2,7 +2,7 @@ package com.messon.project.kmovie.domain.usecase
 
 import com.messon.project.kmovie.core.Result
 import com.messon.project.kmovie.core.UiState
-import com.messon.project.kmovie.data.remote.dto.mapperModel
+import com.messon.project.kmovie.data.mapperToModel
 import com.messon.project.kmovie.domain.enum.MediaType
 import com.messon.project.kmovie.domain.model.BasicCelebrityModel
 import com.messon.project.kmovie.domain.model.BasicTrendingModel
@@ -85,7 +85,7 @@ class GetHomeScreenDataUseCase @Inject constructor(
             }
           }
           .awaitAll()
-          .mapNotNull { dto -> dto?.belongsToCollection?.mapperModel() }
+          .mapNotNull { dto -> dto?.belongsToCollection?.mapperToModel() }
       }
 
       emit(

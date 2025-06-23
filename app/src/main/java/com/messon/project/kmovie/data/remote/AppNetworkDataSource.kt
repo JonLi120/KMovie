@@ -1,6 +1,7 @@
 package com.messon.project.kmovie.data.remote
 
 import com.messon.project.kmovie.data.model.ApiResponse
+import com.messon.project.kmovie.data.model.GenreResponse
 import com.messon.project.kmovie.data.remote.dto.BasicMovieDTO
 import com.messon.project.kmovie.data.remote.dto.BasicPersonDTO
 import com.messon.project.kmovie.data.remote.dto.TrendingDTO
@@ -36,4 +37,15 @@ interface AppNetworkDataSource {
     @Path("movie_id") movieId: Int,
     @Query("language") language: String = "en-US",
   ): BasicMovieDTO
+
+  // === Genre ===
+  @GET("$API_VERSION/genre/movie/list")
+  suspend fun getMovieGenres(
+    @Query("language") language: String = "en",
+  ): GenreResponse
+
+  @GET("$API_VERSION/genre/tv/list")
+  suspend fun getTvGenres(
+    @Query("language") language: String = "en",
+  ): GenreResponse
 }

@@ -2,9 +2,9 @@ package com.messon.project.kmovie.data.repository
 
 import com.messon.project.kmovie.core.BaseRepository
 import com.messon.project.kmovie.core.Result
+import com.messon.project.kmovie.data.mapperToModel
 import com.messon.project.kmovie.data.remote.AppNetworkDataSource
 import com.messon.project.kmovie.data.remote.dto.BasicPersonDTO
-import com.messon.project.kmovie.data.remote.dto.mapperModel
 import javax.inject.Inject
 import com.messon.project.kmovie.di.AppDispatchers.IO
 import com.messon.project.kmovie.di.Dispatcher
@@ -21,6 +21,6 @@ class PeopleRepositoryImpl @Inject constructor(
   override fun getPopularPersonList(page: Int): Flow<Result<List<BasicCelebrityModel>>> = executeWithResult {
     dataSource.getPopularPersonList(page = page)
       .results
-      .map(BasicPersonDTO::mapperModel)
+      .map(BasicPersonDTO::mapperToModel)
   }
 }

@@ -36,10 +36,10 @@ class HomeViewModel @Inject constructor(
   }
 
   private fun getTrendingAndCelebrityItems() {
-//    collectionItems.value = List(5) { BasicMovieCollection.fakeModel() }
-//    trendingItems.value = List(5) { BasicTrendingModel.fakeModel() }
-//    celebrityItems.value = List(5) { BasicCelebrityModel.fakeModel() }
-//    return
+    collectionItems.value = List(5) { BasicMovieCollection.fakeModel() }
+    trendingItems.value = List(5) { BasicTrendingModel.fakeModel() }
+    celebrityItems.value = List(5) { BasicCelebrityModel.fakeModel() }
+    return
     getHomeScreenDataUseCase.invoke()
       .onEach { state ->
         homeUiState.value = state
