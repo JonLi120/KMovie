@@ -3,12 +3,14 @@ package com.messon.project.kmovie.ui.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.systemGesturesPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -69,7 +71,6 @@ private fun HomeScreen(
       modifier = Modifier
         .fillMaxWidth()
         .systemBarsPadding()
-        .windowInsetsPadding(WindowInsets.safeDrawing)
         .verticalScroll(state = rememberScrollState()),
     ) {
 
@@ -87,6 +88,7 @@ private fun HomeScreen(
       CelebritiesWithTitle(
         celebrityItems = celebrityItems,
       )
+      Spacer(Modifier.height(40.dp))
     }
   }
 }

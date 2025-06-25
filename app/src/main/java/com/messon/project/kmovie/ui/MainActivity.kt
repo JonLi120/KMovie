@@ -13,8 +13,11 @@ class MainActivity : ComponentActivity() {
     super.onCreate(savedInstanceState)
     enableEdgeToEdge()
     setContent {
+      val appState = rememberKMovieAppState()
       AppTheme {
-        KMovieApp()
+        KMovieApp(
+          appState = appState,
+        )
       }
     }
   }

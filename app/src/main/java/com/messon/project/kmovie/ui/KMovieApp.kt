@@ -1,30 +1,56 @@
 package com.messon.project.kmovie.ui
 
+import android.transition.Visibility
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.navigation.compose.NavHost
-import com.messon.project.kmovie.ui.home.HomeRoute
-import com.messon.project.kmovie.ui.home.homeScreen
-import com.messon.project.kmovie.ui.trend.navigateToTrendingScreen
-import com.messon.project.kmovie.ui.trend.trendingScreen
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import androidx.compose.ui.Modifier
+import com.messon.project.kmovie.ui.component.AppBottomBar
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @Composable
 fun KMovieApp(
-  appState: KMovieAppState = rememberKMovieAppState()
+  appState: KMovieAppState
 ) {
-  val navController = appState.navController
-  NavHost(
-    navController = navController,
-    startDestination = HomeRoute,
-  ) {
-    homeScreen(
-      appState = appState,
-      onTrendingCellClick = navController::navigateToTrendingScreen
-    )
-    trendingScreen(
-      appState = appState,
-      onBackClick = navController::popBackStack
-    )
+  var showBottomBar = appState.currentTopLevelDestination != null
+
+  Scaffold (
+    contentWindowInsets = WindowInsets(0, 0, 0, 0),
+    bottomBar = {
+      AnimatedVisibility(
+        visible = showBottomBar,
+//        enter = slideInVertically(
+//          initialOffsetY = { it },
+//          animationSpec = tween(durationMillis = 0)
+//        ) + fadeIn(animationSpec = tween(durationMillis = 100)),
+        exit = slideOutVertically(
+          targetOffsetY = { it },
+          animationSpec = tween(durationMillis = 100)
+        ) + fadeOut(animationSpec = tween(durationMillis = 100))
+      ) {
+        AppBottomBar(
+          destinations = appState.topLevelDestinations,
+          onNavigateToDestination = appState::navigateToTopLevelDestination,
+          currentDestination = appState.currentTopLevelDestination,
+        )
+      }
+    }
+  ) { innerPadding ->
+    Box(
+      modifier = Modifier.padding(innerPadding)
+        .consumeWindowInsets(innerPadding)
+    ) {
+      KMovieNavHost(
+        appState = appState,
+      )
+    }
   }
 }
